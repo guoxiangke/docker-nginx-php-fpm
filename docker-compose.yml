@@ -1,15 +1,19 @@
-web:
-    image: nginx:latest
-    ports:
-        - "8080:80"
-    volumes:
-        - ./code:/code
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
-        - ./nginx/amplify.conf:/etc/nginx/conf.d/amplify.conf
-    links:
-        - php
-php:
-    image: php:7-fpm
-    volumes:
-        - ./code:/code
+version: 2
+
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ./code:/code
+            - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./conf/nginx/site.conf:/etc/nginx/conf.d/default.conf
+            - ./conf/nginx/amplify.conf:/etc/nginx/conf.d/amplify.conf
+        links:
+            - php
+    php:
+        image: php:7-fpm
+        volumes:
+            - ./code:/code
+            - ./conf/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
