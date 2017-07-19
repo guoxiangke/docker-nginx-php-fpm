@@ -55,7 +55,7 @@ services:
       # volumes_from:
       #   - storage-mysql
       volumes:
-       - dbdata:/var/lib/mysql
+       - /var/lib/mysql
       environment:
         - MYSQL_USER=drupal
         - MYSQL_PASSWORD=drupal
