@@ -3,9 +3,9 @@ web:
     ports:
         - "8080:80"
     volumes:
-        - ./code:/usr/share/nginx/html
+        - ./code:/code
         - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
         - ./nginx/amplify.conf:/etc/nginx/conf.d/amplify.conf
     links:
         - php
