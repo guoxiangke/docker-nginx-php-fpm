@@ -1,17 +1,21 @@
-version: 2
+version: "2"
 
 services:
     web:
         image: nginx:latest
-        ports:
-            - "8080:80"
         volumes:
             - ./code:/code
             - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./conf/nginx/site.conf:/etc/nginx/conf.d/default.conf
+            #- ./conf/nginx/site.conf:/etc/nginx/conf.d/default.conf
+            - ./conf/nginx/drupal.conf:/etc/nginx/conf.d/default.conf
             - ./conf/nginx/amplify.conf:/etc/nginx/conf.d/amplify.conf
         links:
             - php
+        #work with jwilder/nginx-proxy
+        ports:
+            - "8080:80"
+        environment:
+          - VIRTUAL_HOST=yourapp.yourdomain.com
     php:
         image: php:7-fpm
         volumes:
