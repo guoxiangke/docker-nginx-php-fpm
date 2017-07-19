@@ -3,8 +3,8 @@ web:
     ports:
         - "8080:80"
     volumes:
-        - ./code:/code
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        - ./code:/usr/share/nginx/html
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
         - ./nginx/amplify.conf:/etc/nginx/conf.d/amplify.conf
     links:
@@ -12,4 +12,4 @@ web:
 php:
     image: php:7-fpm
     volumes:
-        - ./code:/code
+        - ./code:/var/www/html
