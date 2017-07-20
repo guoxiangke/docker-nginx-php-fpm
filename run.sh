@@ -11,6 +11,6 @@ else
 
 fi;
 cd ../
-sudo chmod 755 -R ./code
-sudo chown -R www-data:www-data ./code
-docker-compose -f ./docker-compose.yml up -d
+# sudo chmod 755 -R ./code
+# sudo chown -R www-data:www-data ./code
+docker-compose -f ./docker-compose.yml up -d --build --remove-orphans
