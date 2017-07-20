@@ -47,7 +47,8 @@ services:
       restart: always
       volumes_from:
         - storage-mysql
-      # volumes:
+      volumes:
+        - ./sql:/sql
       #  - /var/lib/mysql
       environment:
         - MYSQL_USER=drupal
