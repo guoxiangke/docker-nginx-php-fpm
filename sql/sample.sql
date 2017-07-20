@@ -1,0 +1,1 @@
+# mysqldump -uroot -p yourdb>sample.sql;
