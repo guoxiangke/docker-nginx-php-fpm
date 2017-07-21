@@ -5,7 +5,6 @@ services:
         image: nginx:latest
         restart: always
         volumes:
-            # - ./code:/var/www/html
             - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
             #- ./conf/nginx/site.conf:/etc/nginx/conf.d/default.conf
             - ./conf/nginx/drupal.conf:/etc/nginx/conf.d/default.conf
@@ -18,38 +17,27 @@ services:
         ports:
             - "8080:80"
         environment:
-          - VIRTUAL_HOST=yourapp.yourdomain.com
-    # php:
-    #     image: php:7-fpm
-    #     volumes:
-    #         - ./code:/var/www/html
-    #         - ./conf/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+          - VIRTUAL_HOST=api.qq.yongbuzhixi.com
     
     #api-code-app > drupal:fpm > php:7-fpm 只执行一次！！！
     php:
-        # build: ./src/api
         image: drupal:fpm
-        image: drupal-fpm-for-api #给build镜像后的image命名
+        # image: drupal-php7-fpm #给build镜像后的image命名
         restart: always
         links:
           - "db"
         volumes_from:
           - storage-drupal
         volumes:
-          # - ./code:/code
           - ./conf/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
 
-
     db:
-      image: mysql:latest
+      image: mariadb:latest
       # container_name: mysql #Specify a custom container name, rather than a generated default name.
-      hostname: dbhost
       restart: always
-      volumes_from:
-        - storage-mysql
       volumes:
         - ./sql:/sql
-      #  - /var/lib/mysql
+        - /var/lib/mysql
       environment:
         - MYSQL_USER=drupal
         - MYSQL_PASSWORD=drupal
@@ -58,32 +46,11 @@ services:
 
     #################
     storage-drupal:
-      image: drupal:fpm
+      build: ./code
       # container_name: storagedrupal
       command: ["chmod","-R","777","/var/www/html/sites/default/files"] #v3# create_only: true
       volumes:
         - /var/www/html/sites/default
         - /var/www/html/sites/default/files
-      volumes_from:
-        - storage-api-code
-    #################    
-    storage-mysql:
-      image: mysql:latest
-      command: ["echo","create_only"] #v3# create_only: true
-      volumes:
-          - /var/lib/mysql
-    #################
-    ###################################################
-    # update frequestly , when commit code to git  need rebuild it
-    ###################################################
-    storage-api-code:
-      image: drupal:fpm
-      command: ["cp","/code/*","/var/www/html/","-R"]
-      volumes:
-        - ./code:/code
-        - /var/www/html/
-        # TODO: Some common subdirectories include "contrib" for
-        # contributed modules, and "custom" for custom modules.
-        # - /var/www/html/modules/custom
-        # - /var/www/html/themes/custom
-    #################
+      # volumes_from:
+      #   - storage-code
