@@ -7,7 +7,7 @@
 	fi
 	if [ -z "$1" ]
 	then
-	     GitUrl="https://github.com/guoxiangke/lyapi.git"
+	     GitUrl="https://github.com/guoxiangke/lyaudio.git"
 	else
 		GitUrl=$2
 	fi
