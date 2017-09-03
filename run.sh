@@ -1,13 +1,13 @@
 	#! /bin/bash
 	if [ -z "$1" ]
 	then
-	     ProjectName="api"
+	     ProjectName="lyapi"
 	else
 		ProjectName=$1
 	fi
 	if [ -z "$1" ]
 	then
-	     GitUrl="https://github.com/guoxiangke/api.git"
+	     GitUrl="https://github.com/guoxiangke/lyapi.git"
 	else
 		GitUrl=$2
 	fi
